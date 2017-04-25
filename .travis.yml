@@ -1,5 +1,4 @@
 language: node_js
-repo_token: npWNuzy80BvUh8UDgl2f7OcbmPInCDhHI
 node_js:
   - '6'
 before_install:
@@ -7,4 +6,4 @@ before_install:
 script:
   - npm test
 after_script:
-  - npm run coverage
+  - npm run cov
