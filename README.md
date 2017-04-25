@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dctrue/frog-cli.svg?branch=master)](https://travis-ci.org/dctrue/frog-cli)
+
 # frog-cli
 
 frog-cli是一个脚手架工具。
