@@ -7,7 +7,7 @@
     "frog": "bin/frog"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha -t 50000"
   },
   "author": "jlw <dctrue.jiang@gmail.com>",
   "license": "MIT",
