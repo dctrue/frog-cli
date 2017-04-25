@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/dctrue/frog-cli.svg?branch=master)](https://travis-ci.org/dctrue/frog-cli)
-
+[![Coverage Status](https://coveralls.io/repos/github/dctrue/frog-cli/badge.svg?branch=master)](https://coveralls.io/github/dctrue/frog-cli?branch=master)
 
 # frog-cli
 
