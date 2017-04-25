@@ -1,0 +1,138 @@
+#!/usr/bin/env node
+
+const config = require('../config')
+
+const program = require('commander')
+const path = require('path')
+const fs = require('fs')
+const inquirer = require('inquirer')
+const uid = require('uid')
+const chalk = require('chalk')
+const rm = require('rimraf').sync
+
+const generate = require('../lib/generate')
+const helper = require('../lib/helper')
+const gitAPI = require('../lib/GitAPI')()
+
+const packageConfig = require('../package.json')
+
+
+// 用法文档
+program
+    .usage('<template> [project]')
+
+// 帮助文档
+program.on('--help', function(){
+    console.log('  Example：')
+    console.log()
+    console.log('    #initialize a new project named "my-project" with the template "demo-simple".')
+    console.log('    $ frog init demo-simple my-project')
+})
+
+// 解析命令行
+program.parse(process.argv)
+
+// 执行查看帮助信息
+if(program.args.length < 1){
+	return program.help()
+}
+
+// 命令参数模板名、项目名
+const template = program.args[0]
+const rawName = program.args[1]
+// 是生成在否当前目录
+const inPlace = !rawName || rawName === '.'
+// 项目名
+const name = inPlace ? path.relative('../', process.cwd()) : rawName
+// 项目的绝对路径
+const to = path.resolve(rawName || '.')
+
+/**
+ * 编译模板
+ * @param name
+ * @param from
+ * @param to
+ * @param remove
+ */
+const generateTemplate = (name, from, to, remove = false) => {
+	generate(name, from, to)
+		.then(() => {
+			console.log(`   the project ${name} is generate`)
+		})
+		.catch(err => {
+			console.log('   template generate failed ' + err)
+		})
+		.finally(() => {
+			remove && rm(from)
+		})
+}
+
+// run init
+const init = () => {
+
+	// node版本过低，退出
+	if(!helper.checkNodeVersion(packageConfig.engines.node)) {
+		console.log(chalk.red(
+			`  you have to update your node to the version >=${packageConfig.engines.node}.x first`
+		))
+		process.exit(1)
+	}
+
+	const templateDownAndGenerate = () =>{
+		// 本地模板处理
+		if(fs.existsSync(template)) {
+			// 编译模板
+			generateTemplate(name, template, to)
+		}
+		// 远程模板处理
+		else {
+			// 路径，临时存放未编译的模板
+			const downloadTempPath = 'tmp-' + uid()
+			gitAPI.downloadRepo(template, downloadTempPath)
+				.then(status => {
+					if(!status){
+						return console.log(`   the template ${template} download fail`)
+					}
+					// 编译模板
+					generateTemplate(name, downloadTempPath, to, true)
+				})
+				.catch(err => {
+					if(404 == err.statusCode) {
+						console.log(`   the template ${template} is not exist`)
+					}else{
+						console.log(`   something error`)
+					}
+				})
+		}
+	}
+
+	// 检查是否有最新版本
+	helper.checkFrogCliVersion(packageConfig.version)
+		.then(res => {
+			// 检测到新版本
+			if(res){
+				console.log(chalk.yellow('  [frog-cli] there is a new version on the npmjs.org'))
+				console.log()
+				console.log('  latest version: ' + chalk.green(res))
+				console.log('  your version: ' + chalk.red(packageConfig.version))
+				console.log()
+			}
+
+			templateDownAndGenerate()
+		})
+}
+
+// 检测目录存在，发出确认信息
+if(fs.existsSync(to)){
+    inquirer.prompt([{
+        type: 'confirm',
+        message: inPlace
+            ? 'Are your sure to initialize the new project in current directory?'
+            : 'Directory already exists, are you sure to initialize the new project in this directory?',
+        name: 'ok'
+    }]).then(function(answers){
+        if(answers.ok) init()
+    })
+}else{
+    init()
+}

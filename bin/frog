@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+const pkg = require('../package.json')
+
+program
+    .version(pkg.version)
+    .usage('<command> [options]')
+    .command('init <template> [project]', 'initialize a new project from official template.')
+    .command('list', 'display the list of official template.')
+    .command('token [option]', 'set your private token to the gitlab.')
+    .parse(process.argv)

@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+const chalk = require('chalk')
+const Ora = require('ora')
+
+const privateToken = require('../lib/privateToken')
+const gitAPI = require('../lib/GitAPI')()
+
+console.log()
+
+const spinner = new Ora({
+    color: 'yellow',
+    text: 'searching official template'
+}).start()
+
+// 获取官方模板
+gitAPI.templateGroup()
+	.then((group) => {
+		console.log()
+		if(group.projects.length > 0){
+
+			console.log('  the list of official templates: ')
+			console.log()
+			group.projects.forEach(template => {
+				console.log(`    ${chalk.yellow(`【${template.name}】`)} ${template.description}`)
+			})
+
+		}else{
+			console.log('there is no template')
+		}
+	})
+	.catch((err) => {
+		console.log()
+		if(401 == err.statusCode) {
+			console.log(chalk.red('  your private token expired, set in the following ways: '))
+			console.log(chalk.yellow('  $ frog token --reset <your pritate token>'))
+			process.exit(1)
+		}
+		console.log(chalk.red('  something error when get all template ') + err)
+	})
+	.finally(() => {
+		spinner.text = 'search done'
+		spinner.succeed()
+		console.log()
+	})
