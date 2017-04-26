@@ -56,7 +56,7 @@ describe('template generate', () => {
         generate('test', MOCK_META_TEMPLATE_PATH, MOCK_META_TEMPLATE_DEST_PATH)
 			.then(() => {
 				const exists = fs.existsSync(path.join(MOCK_META_TEMPLATE_DEST_PATH, 'node_modules'))
-				exists.should.not.be.ok
+				exists.should.not.be.ok()
 				rm(MOCK_META_TEMPLATE_DEST_PATH)
 			})
 			.finally(() => {

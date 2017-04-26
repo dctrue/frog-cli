@@ -6,7 +6,7 @@
 const config = {
 	tokenDB: './.db',
 	tokenDBKey: 'private-token',
-	git: {
+	repertory: {
 		type: 'gitlab-uedc',
 		host: 'http://git.uedc.nd.com.cn/',
 		apiUrl: 'http://git.uedc.nd.com.cn/api/v3/',

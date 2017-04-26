@@ -4,7 +4,7 @@ const chalk = require('chalk')
 const Ora = require('ora')
 
 const privateToken = require('../lib/privateToken')
-const gitAPI = require('../lib/GitAPI')()
+const repertory = require('../lib/repertory')()
 
 console.log()
 
@@ -14,14 +14,14 @@ const spinner = new Ora({
 }).start()
 
 // 获取官方模板
-gitAPI.templateGroup()
-	.then((group) => {
+repertory.templateList()
+	.then((templates) => {
 		console.log()
-		if(group.projects.length > 0){
+		if(templates.length > 0){
 
 			console.log('  the list of official templates: ')
 			console.log()
-			group.projects.forEach(template => {
+			templates.forEach(template => {
 				console.log(`    ${chalk.yellow(`【${template.name}】`)} ${template.description}`)
 			})
 

@@ -12,7 +12,7 @@ const rm = require('rimraf').sync
 
 const generate = require('../lib/generate')
 const helper = require('../lib/helper')
-const gitAPI = require('../lib/GitAPI')()
+const repertory = require('../lib/repertory')()
 
 const packageConfig = require('../package.json')
 
@@ -88,7 +88,7 @@ const init = () => {
 		else {
 			// 路径，临时存放未编译的模板
 			const downloadTempPath = 'tmp-' + uid()
-			gitAPI.downloadRepo(template, downloadTempPath)
+			repertory.downloadTemplate(template, downloadTempPath)
 				.then(status => {
 					if(!status){
 						return console.log(`   the template ${template} download fail`)

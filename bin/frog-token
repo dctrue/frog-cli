@@ -16,8 +16,8 @@ program
 // help
 program.on('--help', function(){
     console.log(`  How to get the private token:`)
-    console.log(`    1. login gitlab, ${config.git.host}`)
-    console.log(`    2. find and copy the private token on page ${config.git.host}/profile/account`)
+    console.log(`    1. login gitlab, ${config.repertory.host}`)
+    console.log(`    2. find and copy the private token on page ${config.repertory.host}/profile/account`)
     console.log(`    3. $ frog token -r <token>`)
 })
 
@@ -30,12 +30,12 @@ if(!resetArg){
     // 显示token
     if(!privateToken.isEmpty()){
         console.log()
-        console.log(`  you have set the private token yet: ${privateToken.get()}`)
+        console.log(`  you have set the private token yet: ${privateToken.getToken()}`)
     }
     // 执行查看帮助信息
     program.help()
 }else{
-	privateToken.set(resetArg.toString())
+	privateToken.setToken(resetArg.toString())
 	console.log()
 	console.log(chalk.green(`set private token '${resetArg}' successfully.`))
 	console.log(chalk.green(`ok, let's go.`))
