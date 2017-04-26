@@ -14,7 +14,14 @@
     "author": {
       "type": "string",
       "message": "Author"
+    },
+    "filter": {
+      "type": "confirm",
+      "message": "Filter some file?"
     }
+  },
+  "filters":{
+    "filter.txt": "filter"
   },
   "successMessage": "To get started:\n\n  npm install\n  npm run dev."
 }

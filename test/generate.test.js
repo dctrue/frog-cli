@@ -35,7 +35,8 @@ describe('template generate', () => {
     const answers = {
         name: 'test',
         author: 'jlw <jlw@gmail.com>',
-        description: 'nd uedc template test'
+        description: 'nd uedc template test',
+		filter: true
     }
 
     it('helper', (done) => {
