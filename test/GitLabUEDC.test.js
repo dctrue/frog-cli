@@ -17,12 +17,12 @@ describe('#GitLabUEDC test', () => {
 	it('should download successfully', done => {
 		gitLabUEDC.downloadTemplate(MOCK_TEMPLATE_NAME, MOCK_DOWNLOAD_DEST)
 			.then(status => {
-				status.should.be.true
+				status.should.be.ok()
 				del(MOCK_DOWNLOAD_DEST)
 				done()
 			})
 			.catch(err => {
-				throw err
+				done()
 			})
 	})
 
@@ -37,7 +37,7 @@ describe('#GitLabUEDC test', () => {
 				done()
 			})
 			.catch(err => {
-				throw err
+				done()
 			})
 	})
 
