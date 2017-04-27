@@ -1,57 +1,101 @@
 
 "use strict"
 
-const config = require('../config')
-const GitLabUEDC = require('../lib/repertory/GitLabUEDC')
-const privateToken = require('../lib/privateToken')
-
-const del = require('del')
 const should = require('should')
+const muk = require('muk')
+const Promise = require('bluebird')
 
-const gitLabUEDC = new GitLabUEDC()
-
-const MOCK_TEMPLATE_NAME = 'simple-pc'
-const MOCK_DOWNLOAD_DEST = './.temp'
+const config = require('../config')
+const privateToken = require('../lib/privateToken')
 
 describe('#GitLabUEDC test', () => {
 
-	let originalToken = null
+	const MOCK_TEMPLATE_NAME = 'simple-pc'
+	const MOCK_DOWNLOAD_DEST = './.temp'
 
-	before(() => {
-		// 保存原先的private token
-		originalToken = privateToken.getToken()
-		privateToken.setToken('GxwCYpeQxq9_EHEkrh-M')
-	})
+	class MockGitlabDownload {
+		constructor() {}
 
-	after(() => {
-		privateToken.setToken(originalToken)
-	})
-
-	it('should download successfully', done => {
-		gitLabUEDC.downloadTemplate(MOCK_TEMPLATE_NAME, MOCK_DOWNLOAD_DEST)
-			.then(status => {
-				status.should.be.ok()
-				del(MOCK_DOWNLOAD_DEST)
-				done()
+		download(opts) {
+			return new Promise((resolve, reject) => {
+				if(opts.remote.indexOf(MOCK_TEMPLATE_NAME) == -1) {
+					reject(new Error())
+				}else {
+					resolve(true)
+				}
 			})
-			.catch(err => {
-				done()
-			})
-	})
+		}
+	}
 
-	it('should return a template list', done => {
-		gitLabUEDC.templateList()
-			.then(templates => {
-				templates.should.be.an.instanceOf(Array)
-				templates.forEach(template => {
-					template.should.have.property('name')
-					template.should.have.property('description')
+	const mockRequest = () => {
+		return new Promise((resolve) => {
+			resolve({
+				projects: [
+					{
+						name: 'name',
+						description: 'description'
+					}
+				]
+			})
+		})
+	}
+
+	const GitLabUEDC = muk('../lib/repertory/GitLabUEDC', {
+		'gitlab-download': MockGitlabDownload,
+		request: mockRequest
+	})
+	const gitLabUEDC = new GitLabUEDC()
+
+	describe('#GitLabUEDC downloadTemplate() test', () => {
+
+		it('should download successfully when given a exist template in gitlab', done => {
+
+			gitLabUEDC.downloadTemplate(MOCK_TEMPLATE_NAME, MOCK_DOWNLOAD_DEST)
+				.should.be.fulfilled()
+				.then(status => {
+					status.should.be.equal(true)
+					done()
 				})
-				done()
-			})
-			.catch(err => {
-				done()
-			})
+				.catch(err => {
+					should.not.exist(err)
+					done()
+				})
+		})
+
+		it('should download failed when given a none exist template in gitlab', done => {
+
+			gitLabUEDC.downloadTemplate('other-anytemplate', MOCK_DOWNLOAD_DEST)
+				.should.be.rejected()
+				.then(status => {
+					should.not.exist(status)
+					done()
+				})
+				.catch(err => {
+					should.exist(err)
+					done()
+				})
+		})
+
+	})
+
+	describe('#GitLabUEDC templateList() test', () => {
+
+		it('should return a template list', done => {
+			gitLabUEDC.templateList()
+				.then(templates => {
+					templates.should.be.an.instanceOf(Array)
+					templates.forEach(template => {
+						template.should.have.property('name')
+						template.should.have.property('description')
+					})
+					done()
+				})
+				.catch(err => {
+					should.not.exist(err)
+					done()
+				})
+		})
+
 	})
 
 })

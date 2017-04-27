@@ -1,13 +1,15 @@
 {
   "name": "frog-cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A simple CLI for scaffolding projects",
   "main": "index.js",
+  "homepage": "https://github.com/dctrue/frog-cli",
+  "repository": "git://github.com/dctrue/frog-cli.git",
   "bin": {
     "frog": "bin/frog"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha -u bdd",
+    "test": "./node_modules/.bin/mocha",
     "cov": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "author": "jlw <dctrue.jiang@gmail.com>",
@@ -36,9 +38,9 @@
   },
   "devDependencies": {
     "coveralls": "^2.13.0",
-    "del": "^2.2.2",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.2",
+    "muk": "^0.5.3",
     "should": "^11.1.1"
   },
   "engines": {
