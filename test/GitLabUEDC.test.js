@@ -42,7 +42,7 @@ describe('#GitLabUEDC test', () => {
 
 	const GitLabUEDC = muk('../lib/repertory/GitLabUEDC', {
 		'gitlab-download': MockGitlabDownload,
-		request: mockRequest
+		'request-promise': mockRequest
 	})
 	const gitLabUEDC = new GitLabUEDC()
 
