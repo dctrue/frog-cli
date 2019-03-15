@@ -1,7 +1,7 @@
 {
   "name": "frog-cli",
   "version": "0.0.4",
-  "description": "A simple CLI for scaffolding projects",
+  "description": "A simple CLI for scaffolding projects.",
   "main": "index.js",
   "homepage": "https://github.com/dctrue/frog-cli",
   "repository": "git://github.com/dctrue/frog-cli.git",

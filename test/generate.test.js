@@ -31,7 +31,7 @@ function inquirerPromptReFN(answers){
     }
 }
 
-describe('template generate', () => {
+describe('template generate:', () => {
     const answers = {
         name: 'test',
         author: 'jlw <jlw@gmail.com>',

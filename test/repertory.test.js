@@ -5,7 +5,7 @@ const repertory = require('../lib/repertory')
 const GitLabUEDC = require('../lib/repertory/GitLabUEDC')
 const should = require('should')
 
-describe('#repertory test', () => {
+describe('#repertory test:', () => {
 
 	it('should be throw error when repertory bridge not found', () => {
 		(() => { repertory('anything') }).should.throw()

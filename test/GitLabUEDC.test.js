@@ -46,7 +46,7 @@ describe('#GitLabUEDC test', () => {
 	})
 	const gitLabUEDC = new GitLabUEDC()
 
-	describe('#GitLabUEDC downloadTemplate() test', () => {
+	describe('#GitLabUEDC downloadTemplate() test:', () => {
 
 		it('should download successfully when given a exist template in gitlab', done => {
 

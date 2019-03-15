@@ -20,7 +20,7 @@ const helper = muk('../lib/helper', {
 	'request-promise': mockRequest
 })
 
-describe('#helper test', () => {
+describe('#helper test:', () => {
 
 	describe('#helper checkNodeVersion test', () => {
 

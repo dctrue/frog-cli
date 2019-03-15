@@ -8,8 +8,8 @@ const config = {
 	tokenDBKey: 'private-token',
 	repertory: {
 		type: 'GitLabUEDC',
-		host: 'http://git.uedc.nd.com.cn/',
-		apiUrl: 'http://git.uedc.nd.com.cn/api/v3/',
+		host: 'http://git.sdp.nd/',
+		apiUrl: 'http://git.sdp.nd/api/v3/',
 		templateGroup: 'cube-templates'
 	}
 }

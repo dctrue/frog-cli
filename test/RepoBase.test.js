@@ -10,7 +10,7 @@ const repoBase = new RepoBase()
 const MOCK_TEMPLATE_NAME = 'simple'
 const MOCK_TEMPLATE_BRANCH = '1.0.0'
 
-describe('#RepoBase test', () => {
+describe('#RepoBase test:', () => {
 
 	it('should throw error when downloadTemplate() method called', () => {
 		(() => { repoBase.downloadTemplate() }).should.throw()

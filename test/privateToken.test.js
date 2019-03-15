@@ -41,7 +41,7 @@ describe('#privateToken test', () => {
 		value.should.be.eql(MOCK_TOKEN_VALUE)
 	})
 
-	describe('#privateToken getToken() test', () => {
+	describe('#privateToken getToken() test:', () => {
 
 		it('should get an empty string when private token is not set yet', () => {
 			const value = privateToken.getToken()
